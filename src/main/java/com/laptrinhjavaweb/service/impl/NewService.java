@@ -48,8 +48,11 @@ public class NewService implements INewService {
 		updateNew.setCreatedBy(oldNew.getCreatedBy());
 		updateNew.setModifiedDate(new Timestamp(System.currentTimeMillis()));
 
-		CategoryModel category = categoryDAO.findOneByCode(updateNew.getCategoryCode());
-		updateNew.setCategoryId(category.getId());
+		/*
+		 * CategoryModel category =
+		 * categoryDAO.findOneByCode(updateNew.getCategoryCode());
+		 * updateNew.setCategoryId(category.getId());
+		 */
 		newDao.update(updateNew);
 
 		return newDao.findOne(updateNew.getId());

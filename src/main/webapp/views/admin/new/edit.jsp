@@ -9,6 +9,7 @@
 <body>
 <div class="main-content">
     <div class="main-content-inner">
+    	<!-- start -->
         <div class="breadcrumbs" id="breadcrumbs">
             <script type="text/javascript">
                 try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
@@ -20,7 +21,7 @@
                 </li>
                 <li class="active">Chỉnh sửa bài viết</li>
             </ul><!-- /.breadcrumb -->
-        </div>
+        </div><!-- end -->
         <div class="page-content">
             <div class="row">
                 <div class="col-xs-12">
@@ -32,6 +33,7 @@
                         <form id="formSubmit">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">Thể loại</label>
+                                <!--  -->
                                 <div class="col-sm-9">
                                     <select class="form-control" id="categoryCode" name="categoryCode">
                                         <c:if test="${empty model.categoryCode}">
@@ -49,16 +51,17 @@
                                             </c:forEach>
                                         </c:if>
                                     </select>
-                                </div>
+                                </div><!--  -->
                             </div>
                             <br/>
                             <br/>
+                            <!-- start  -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">Tiêu đề</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" id="title" name="title" value="${model.title}"/>
                                 </div>
-                            </div>
+                            </div><!--end  -->
                             <br/>
                             <br/>
                             <div class="form-group">
