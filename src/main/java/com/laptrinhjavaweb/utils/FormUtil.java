@@ -16,7 +16,7 @@ public class FormUtil {
 			BeanUtils.populate(object, request.getParameterMap());
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return object;

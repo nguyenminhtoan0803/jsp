@@ -45,7 +45,8 @@
                                         <c:if test="${not empty model.categoryCode}">
                                             <option value="">Chọn loại bài viết</option>
                                             <c:forEach var="item" items="${categories}">
-                                                <option value="${item.code}" <c:if test="${item.code == model.categoryCode}">selected="selected"</c:if>>
+                                                <option value="${item.code}" 
+                                                	<c:if test="${item.code == model.categoryCode}">selected="selected"</c:if>>
                                                         ${item.name}
                                                 </option>
                                             </c:forEach>
@@ -106,7 +107,8 @@
     </div>
 </div>
 <script>
-	var editor = '';
+	
+	/* var editor = '';
 	$(document).ready(function(){
 		editor = CKEDITOR.replace( 'content');
 	});
@@ -153,6 +155,62 @@
             },
             error: function (error) {
             	window.location.href = "${NewURL}?type=list&maxPageItem=2&page=1&message=error_system";
+            }
+        });
+    } */
+    
+    $('#btnAddOrUpdateNew').click(function(e){
+        //tran truong hop submit nham url, importan!
+    	e.preventDefault();
+        var data = {};
+        //get data all input => return array
+        var formData = $('#formSubmit').serializeArray();
+        $.each(formData, function(i, v){
+           data[""+v.name+""] = v.value;
+           
+        });
+        var id = $('#id').val();
+        if(id === ""){
+            addNew(data);
+        }else{
+            updateNew(data);
+        }
+    });
+
+    function addNew(data){
+        $.ajax({        
+            url: '${APIurl}',
+            type:'POST',
+            //kieu du lieu gui tu client ve server
+            contentType:'application/json',
+            //convert data array in json 
+            data: JSON.stringify(data),
+            //kieu du lieu gui tu server ve client
+            dataType:'json',
+            success: function(result){
+                  console.log(result);
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+    }
+
+    function updateNew(data){
+        $.ajax({        
+            url: '${APIurl}',
+            type:'PUT',
+            //kieu du lieu gui tu client ve server
+            contentType:'application/json',
+            //convert data array in json 
+            data: JSON.stringify(data),
+            //kieu du lieu gui tu server ve client
+            dataType:'json',
+            success: function(result){
+                  console.log(result);
+            },
+            error: function(error){
+                console.log(error);
             }
         });
     }
