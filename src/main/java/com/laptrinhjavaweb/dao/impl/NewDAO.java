@@ -20,7 +20,7 @@ public class NewDAO extends AbstractDAO<NewModel> implements INewDAO {
 	@Override
 	public Long save(NewModel newModel) {
 		StringBuilder sql = new StringBuilder("INSERT INTO news (title, content,");
-		sql.append(" thumbnail, shortdescription, categoryid, createddate, createdby)");
+		sql.append(" thumbnail, short_description, categoryid, createddate, createdby)");
 		sql.append(" VALUES(?, ?, ?, ?, ?, ?, ?)");
 		return insert(sql.toString(), newModel.getTitle(), newModel.getContent(), 
 				newModel.getThumbnail(), newModel.getShortDescription(), newModel.getCategoryId(),
@@ -37,7 +37,7 @@ public class NewDAO extends AbstractDAO<NewModel> implements INewDAO {
 	@Override
 	public void update(NewModel updateNew) {
 		StringBuilder sql = new StringBuilder("UPDATE news SET title = ?, thumbnail = ?,");
-		sql.append(" shortdescription = ?, content = ?, categoryid = ?,");
+		sql.append(" short_description = ?, content = ?, categoryid = ?,");
 		sql.append(" createddate = ?, createdby = ?, modifieddate = ?, modifiedby = ? WHERE id = ?");
 		update(sql.toString(), updateNew.getTitle(), updateNew.getThumbnail(), updateNew.getShortDescription(),
 				updateNew.getContent(), updateNew.getCategoryId(), updateNew.getCreatedDate(), 
@@ -54,11 +54,21 @@ public class NewDAO extends AbstractDAO<NewModel> implements INewDAO {
 	@Override
 	public List<NewModel> findAll(Pageble pageble) {
 		StringBuilder sql = new StringBuilder("SELECT * FROM news");
-		if (pageble.getSorter() != null && StringUtils.isNotBlank(pageble.getSorter().getSortName()) && StringUtils.isNotBlank(pageble.getSorter().getSortBy())) {
-			sql.append(" ORDER BY "+pageble.getSorter().getSortName()+" "+pageble.getSorter().getSortBy()+"");
+		if (pageble.getSorter() != null 
+				&& StringUtils.isNotBlank(pageble.getSorter().getSortName()) 
+				&& StringUtils.isNotBlank(pageble.getSorter().getSortBy())) {
+			
+			sql.append(" ORDER BY " 
+						+ pageble.getSorter().getSortName() 
+						+ " "
+						+ pageble.getSorter().getSortBy()+"");
 		}
-		if (pageble.getOffset() != null && pageble.getLimit() != null) {
-			sql.append(" LIMIT "+pageble.getOffset()+", "+pageble.getLimit()+"");
+		if (pageble.getOffset() != null 
+				&& pageble.getLimit() != null) {
+			sql.append(" LIMIT "
+						+ pageble.getOffset() 
+						+ ", "
+						+ pageble.getLimit()+"");
 		}
 		return query(sql.toString(), new NewMapper());
 	}

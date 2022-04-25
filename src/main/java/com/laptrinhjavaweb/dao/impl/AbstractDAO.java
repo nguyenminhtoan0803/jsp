@@ -17,7 +17,7 @@ import com.laptrinhjavaweb.mapper.RowMapper;
 public class AbstractDAO<T> implements GenericDAO<T> {
 
 	ResourceBundle resourceBundle = ResourceBundle.getBundle("db");
-	
+
 	public Connection getConnection() {
 		try {
 			Class.forName(resourceBundle.getString("driverName"));
@@ -26,7 +26,23 @@ public class AbstractDAO<T> implements GenericDAO<T> {
 			String password = resourceBundle.getString("password");
 			return DriverManager.getConnection(url, user, password);
 		} catch (ClassNotFoundException | SQLException e) {
+			System.out.print(e.getMessage());
 			return null;
+		}
+	}
+
+	public void disConnection(ResultSet resultSet, PreparedStatement statement, Connection connection)
+			throws SQLException {
+		if (resultSet != null) {
+			resultSet.close();
+		}
+
+		if (statement != null) {
+			statement.close();
+		}
+
+		if (connection != null) {
+			connection.close();
 		}
 	}
 
@@ -46,20 +62,13 @@ public class AbstractDAO<T> implements GenericDAO<T> {
 			}
 			return results;
 		} catch (SQLException e) {
+			System.out.println(e.getMessage());
 			return null;
 		} finally {
 			try {
-				if (connection != null) {
-					connection.close();
-				}
-				if (statement != null) {
-					statement.close();
-				}
-				if (resultSet != null) {
-					resultSet.close();
-				}
+				disConnection(resultSet, statement, connection);
 			} catch (SQLException e) {
-				return null;
+				System.out.println(e.getMessage());
 			}
 		}
 	}
