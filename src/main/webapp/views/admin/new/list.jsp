@@ -138,10 +138,12 @@
 		            contentType: 'application/json',
 		            data: JSON.stringify(data),
 		            success: function (result) {
-		                window.location.href = "${NewURL}?type=list&maxPageItem=2&page=1&message=delete_success";
+		                /* window.location.href = "${NewURL}?type=list&maxPageItem=2&page=1&message=delete_success"; */
+		                window.location.href = "${NewURL}?type=list&maxPageItem=2&page=1";
 		            },
 		            error: function (error) {
-		            	window.location.href = "${NewURL}?type=list&maxPageItem=2&page=1&message=error_system";
+		            	/* window.location.href = "${NewURL}?type=list&maxPageItem=2&page=1&message=error_system"; */
+		            	window.location.href = "${NewURL}?type=list&maxPageItem=2&page=1";
 		            }
 		        });
 		    }

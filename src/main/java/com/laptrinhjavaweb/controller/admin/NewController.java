@@ -48,7 +48,7 @@ public class NewController extends HttpServlet {
 			request.setAttribute("categories", categoryService.findAll());
 			view = "/views/admin/new/edit.jsp";
 		}
-		MessageUtil.showMessage(request);
+		//MessageUtil.showMessage(request);
 		request.setAttribute(SystemConstant.MODEL, model);
 		RequestDispatcher rd = request.getRequestDispatcher(view);
 		rd.forward(request, response);
