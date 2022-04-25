@@ -10,9 +10,8 @@ public class UserMapper implements RowMapper<UserModel> {
 
 	@Override
 	public UserModel mapRow(ResultSet resultSet) {
-		UserModel user = new UserModel();
 		try {
-
+			UserModel user = new UserModel();
 			user.setId(resultSet.getLong("id"));
 			user.setUserName(resultSet.getString("username"));
 			user.setFullName(resultSet.getString("fullname"));
@@ -26,10 +25,9 @@ public class UserMapper implements RowMapper<UserModel> {
 			} catch (Exception e) {
 				System.out.print(e.getMessage());
 			}
-
+			return user;
 		} catch (SQLException e) {
-
-		}
-		return user;
+			return null;
+		}	
 	}
 }

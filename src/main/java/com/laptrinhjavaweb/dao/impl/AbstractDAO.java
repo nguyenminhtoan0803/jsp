@@ -17,7 +17,7 @@ import com.laptrinhjavaweb.mapper.RowMapper;
 public class AbstractDAO<T> implements GenericDAO<T> {
 
 	ResourceBundle resourceBundle = ResourceBundle.getBundle("db");
-
+	
 	public Connection getConnection() {
 		try {
 			Class.forName(resourceBundle.getString("driverName"));
@@ -26,27 +26,7 @@ public class AbstractDAO<T> implements GenericDAO<T> {
 			String password = resourceBundle.getString("password");
 			return DriverManager.getConnection(url, user, password);
 		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println(e.getMessage());
 			return null;
-		}
-	}
-
-	// method dis connection
-	public void disConnection(Connection connection, PreparedStatement statement, ResultSet resultSet) {
-		try {
-			if (resultSet != null) {
-				resultSet.close();
-			}
-
-			if (statement != null) {
-				statement.close();
-			}
-
-			if (connection != null) {
-				connection.close();
-			}
-		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
 		}
 	}
 
@@ -64,14 +44,24 @@ public class AbstractDAO<T> implements GenericDAO<T> {
 			while (resultSet.next()) {
 				results.add(rowMapper.mapRow(resultSet));
 			}
-
+			return results;
 		} catch (SQLException e) {
-			System.out.print(e.getMessage());
+			return null;
 		} finally {
-			disConnection(connection, statement, resultSet);
+			try {
+				if (connection != null) {
+					connection.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+				if (resultSet != null) {
+					resultSet.close();
+				}
+			} catch (SQLException e) {
+				return null;
+			}
 		}
-
-		return results;
 	}
 
 	private void setParameter(PreparedStatement statement, Object... parameters) {
@@ -114,7 +104,16 @@ public class AbstractDAO<T> implements GenericDAO<T> {
 				}
 			}
 		} finally {
-			disConnection(connection, statement, null);
+			try {
+				if (connection != null) {
+					connection.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+			}
 		}
 	}
 
@@ -145,19 +144,30 @@ public class AbstractDAO<T> implements GenericDAO<T> {
 				}
 			}
 		} finally {
-			disConnection(connection, statement, resultSet);
+			try {
+				if (connection != null) {
+					connection.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+				if (resultSet != null) {
+					resultSet.close();
+				}
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+			}
 		}
 		return null;
 	}
 
 	@Override
 	public int count(String sql, Object... parameters) {
-		int count = 0;
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		try {
-
+			int count = 0;
 			connection = getConnection();
 			statement = connection.prepareStatement(sql);
 			setParameter(statement, parameters);
@@ -169,7 +179,19 @@ public class AbstractDAO<T> implements GenericDAO<T> {
 		} catch (SQLException e) {
 			return 0;
 		} finally {
-			disConnection(connection, statement, resultSet);
+			try {
+				if (connection != null) {
+					connection.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+				if (resultSet != null) {
+					resultSet.close();
+				}
+			} catch (SQLException e) {
+				return 0;
+			}
 		}
 	}
 

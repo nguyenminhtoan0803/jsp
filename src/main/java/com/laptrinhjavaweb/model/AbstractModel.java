@@ -11,21 +11,16 @@ public class AbstractModel<T> {
 	private Timestamp modifiedDate;
 	private String createdBy;
 	private String modifiedBy;
-	
 	private long[] ids;
 	private List<T> listResult = new ArrayList<>();
-	
 	private Integer page;
 	private Integer maxPageItem;
 	private Integer totalPage;
 	private Integer totalItem;
-	
 	private String sortName;
 	private String sortBy;
-	
 	private String alert;
 	private String message;
-	
 	private String type;
 	
 	public Long getId() {

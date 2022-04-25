@@ -9,7 +9,6 @@
 <body>
 <div class="main-content">
     <div class="main-content-inner">
-    	<!-- start -->
         <div class="breadcrumbs" id="breadcrumbs">
             <script type="text/javascript">
                 try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
@@ -21,7 +20,7 @@
                 </li>
                 <li class="active">Chỉnh sửa bài viết</li>
             </ul><!-- /.breadcrumb -->
-        </div><!-- end -->
+        </div>
         <div class="page-content">
             <div class="row">
                 <div class="col-xs-12">
@@ -33,7 +32,6 @@
                         <form id="formSubmit">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">Thể loại</label>
-                                <!--  -->
                                 <div class="col-sm-9">
                                     <select class="form-control" id="categoryCode" name="categoryCode">
                                         <c:if test="${empty model.categoryCode}">
@@ -45,24 +43,22 @@
                                         <c:if test="${not empty model.categoryCode}">
                                             <option value="">Chọn loại bài viết</option>
                                             <c:forEach var="item" items="${categories}">
-                                                <option value="${item.code}" 
-                                                	<c:if test="${item.code == model.categoryCode}">selected="selected"</c:if>>
+                                                <option value="${item.code}" <c:if test="${item.code == model.categoryCode}">selected="selected"</c:if>>
                                                         ${item.name}
                                                 </option>
                                             </c:forEach>
                                         </c:if>
                                     </select>
-                                </div><!--  -->
+                                </div>
                             </div>
                             <br/>
                             <br/>
-                            <!-- start  -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">Tiêu đề</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" id="title" name="title" value="${model.title}"/>
                                 </div>
-                            </div><!--end  -->
+                            </div>
                             <br/>
                             <br/>
                             <div class="form-group">
@@ -107,8 +103,7 @@
     </div>
 </div>
 <script>
-	
-	/* var editor = '';
+	var editor = '';
 	$(document).ready(function(){
 		editor = CKEDITOR.replace( 'content');
 	});
@@ -155,62 +150,6 @@
             },
             error: function (error) {
             	window.location.href = "${NewURL}?type=list&maxPageItem=2&page=1&message=error_system";
-            }
-        });
-    } */
-    
-    $('#btnAddOrUpdateNew').click(function(e){
-        //tran truong hop submit nham url, importan!
-    	e.preventDefault();
-        var data = {};
-        //get data all input => return array
-        var formData = $('#formSubmit').serializeArray();
-        $.each(formData, function(i, v){
-           data[""+v.name+""] = v.value;
-           
-        });
-        var id = $('#id').val();
-        if(id === ""){
-            addNew(data);
-        }else{
-            updateNew(data);
-        }
-    });
-
-    function addNew(data){
-        $.ajax({        
-            url: '${APIurl}',
-            type:'POST',
-            //kieu du lieu gui tu client ve server
-            contentType:'application/json',
-            //convert data array in json 
-            data: JSON.stringify(data),
-            //kieu du lieu gui tu server ve client
-            dataType:'json',
-            success: function(result){
-                  console.log(result);
-            },
-            error: function(error){
-                console.log(error);
-            }
-        });
-    }
-
-    function updateNew(data){
-        $.ajax({        
-            url: '${APIurl}',
-            type:'PUT',
-            //kieu du lieu gui tu client ve server
-            contentType:'application/json',
-            //convert data array in json 
-            data: JSON.stringify(data),
-            //kieu du lieu gui tu server ve client
-            dataType:'json',
-            success: function(result){
-                  console.log(result);
-            },
-            error: function(error){
-                console.log(error);
             }
         });
     }

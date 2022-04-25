@@ -30,8 +30,7 @@ public class NewAPI extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
 		NewModel newModel =  HttpUtil.of(request.getReader()).toModel(NewModel.class);
-		newModel.setCreatedBy(((UserModel) SessionUtil.getInstance()
-								.getValue(request, "USERMODEL")).getUserName());
+		newModel.setCreatedBy(((UserModel) SessionUtil.getInstance().getValue(request, "USERMODEL")).getUserName());
 		newModel = newService.save(newModel);
 		mapper.writeValue(response.getOutputStream(), newModel);
 	}
